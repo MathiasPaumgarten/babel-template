@@ -1,0 +1,7 @@
+{
+    "name": "babel",
+    "version": "0.1.0",
+    "author": "Mathias Paumgarten <mail@mathias-paumgarten.com>",
+    "description": "Basic template for working with babel",
+    "fetch": {}
+}
