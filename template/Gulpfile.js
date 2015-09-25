@@ -34,7 +34,7 @@ gulp.task( "jade", function() {
 } );
 
 gulp.task( "watch", function() {
-    gulp.watch( "javascripts/**/*.js", [ "scripts" ] );
+    gulp.watch( "javascript/**/*.js", [ "scripts" ] );
     gulp.watch( "jade/**/*.jade", [ "jade" ] );
     gulp.watch( "scss/**/*.scss", [ "scss" ] );
     gulp.watch( "assets/**", [ "assets" ] );
