@@ -1,19 +1,25 @@
 var gulp       = require( "gulp" );
-var babel      = require( "gulp-babel" );
-var sourcemaps = require( "gulp-sourcemaps" );
+var babelify   = require( "babelify" );
+var browserify = require( "browserify" );
 var connect    = require( "gulp-connect" );
 var jade       = require( "gulp-jade" );
-var concat     = require( "gulp-concat" );
 var sass       = require( "gulp-sass" );
 var minifyCSS  = require( "gulp-minify-css" );
+var gutil      = require( "gulp-util" );
+var source     = require( "vinyl-source-stream" );
+var buffer     = require( "vinyl-buffer" );
 
 gulp.task( "scripts", function() {
-    gulp.src( "javascript/main.js" )
-        .pipe( sourcemaps.init() )
-        .pipe( babel() )
-        .pipe( concat( "main.js" ) )
-        .pipe( sourcemaps.write( "." ) )
-        .pipe( gulp.dest( "public/javascripts" ) );
+
+    var bundler = browserify( "javascript/main.js", {
+            debug: true
+    } ).transform( babelify, {} );
+
+    return bundler.bundle()
+        .on( "error", gutil.log )
+        .pipe( source( "main.js" ) )
+        .pipe( buffer() )
+        .pipe( gulp.dest( "public/javascripts/" ) );
 } );
 
 gulp.task( "connect", function() {
