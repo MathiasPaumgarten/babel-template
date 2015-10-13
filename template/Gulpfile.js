@@ -3,7 +3,7 @@ var babelify   = require( "babelify" );
 var browserify = require( "browserify" );
 var connect    = require( "gulp-connect" );
 var jade       = require( "gulp-jade" );
-var sass       = require( "gulp-sass" );
+var less       = require( "gulp-less" );
 var minifyCSS  = require( "gulp-minify-css" );
 var gutil      = require( "gulp-util" );
 var source     = require( "vinyl-source-stream" );
@@ -42,15 +42,15 @@ gulp.task( "jade", function() {
 gulp.task( "watch", function() {
     gulp.watch( "javascript/**/*.js", [ "scripts" ] );
     gulp.watch( "jade/**/*.jade", [ "jade" ] );
-    gulp.watch( "scss/**/*.scss", [ "scss" ] );
+    gulp.watch( "less/**/*.less", [ "less" ] );
     gulp.watch( "assets/**", [ "assets" ] );
 } );
 
-gulp.task( "scss", function() {
-    gulp.src( "scss/*.scss" )
-        .pipe( sass().on( "error", sass.logError ) )
+gulp.task( "less", function() {
+    gulp.src( "less/*.less" )
+        .pipe( less() )
         .pipe( minifyCSS() )
         .pipe( gulp.dest( "./public/stylesheets" ) );
 } );
 
-gulp.task( "default", [ "scripts", "jade", "scss", "watch", "connect" ] );
+gulp.task( "default", [ "scripts", "jade", "less", "watch", "connect" ] );

@@ -10,7 +10,6 @@
     "gulp-jade": "~1.0.0",
     "gulp-less": "~3.0.2",
     "gulp-minify-css": "^1.2.1",
-    "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.6",
     "vinyl-buffer": "^1.0.0",
