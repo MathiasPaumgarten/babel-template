@@ -3,8 +3,8 @@ var babelify   = require( "babelify" );
 var browserify = require( "browserify" );
 var connect    = require( "gulp-connect" );
 var jade       = require( "gulp-jade" );
-var less       = require( "gulp-less" );
 var minifyCSS  = require( "gulp-minify-css" );
+var compass    = require( "gulp-compass" );
 var gutil      = require( "gulp-util" );
 var source     = require( "vinyl-source-stream" );
 var buffer     = require( "vinyl-buffer" );
@@ -42,15 +42,19 @@ gulp.task( "jade", function() {
 gulp.task( "watch", function() {
     gulp.watch( "javascript/**/*.js", [ "scripts" ] );
     gulp.watch( "jade/**/*.jade", [ "jade" ] );
-    gulp.watch( "less/**/*.less", [ "less" ] );
+    gulp.watch( "less/**/*.scss", [ "scss" ] );
     gulp.watch( "assets/**", [ "assets" ] );
 } );
 
-gulp.task( "less", function() {
-    gulp.src( "less/*.less" )
-        .pipe( less() )
+gulp.task( "scss", function() {
+    gulp.src( "scss/*.scss" )
+        .pipe( compass( {
+            css: "public/stylesheets",
+            sass: "scss",
+        } ) )
+        .on( "error", gutil.log )
         .pipe( minifyCSS() )
-        .pipe( gulp.dest( "./public/stylesheets" ) );
+        .pipe( gulp.dest( "public/stylesheets" ) );
 } );
 
-gulp.task( "default", [ "scripts", "jade", "less", "watch", "connect" ] );
+gulp.task( "default", [ "scripts", "jade", "scss", "watch", "connect" ] );
