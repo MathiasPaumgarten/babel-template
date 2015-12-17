@@ -42,7 +42,7 @@ gulp.task( "jade", function() {
 gulp.task( "watch", function() {
     gulp.watch( "javascript/**/*.js", [ "scripts" ] );
     gulp.watch( "jade/**/*.jade", [ "jade" ] );
-    gulp.watch( "less/**/*.scss", [ "scss" ] );
+    gulp.watch( "scss/**/*.scss", [ "scss" ] );
     gulp.watch( "assets/**", [ "assets" ] );
 } );
 
