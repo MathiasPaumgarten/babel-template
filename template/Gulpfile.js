@@ -5,18 +5,24 @@ var connect    = require( "gulp-connect" );
 var jade       = require( "gulp-jade" );
 var minifyCSS  = require( "gulp-minify-css" );
 var compass    = require( "gulp-compass" );
-var gutil      = require( "gulp-util" );
 var source     = require( "vinyl-source-stream" );
 var buffer     = require( "vinyl-buffer" );
+
+function onError( error ) {
+    console.log( error );
+    this.emit( "end" );
+}
 
 gulp.task( "scripts", function() {
 
     var bundler = browserify( "javascript/main.js", {
             debug: true
-    } ).transform( babelify, {} );
+        } )
+        .transform( babelify, {} )
+        .on( "error", onError );
 
     return bundler.bundle()
-        .on( "error", gutil.log )
+        .on( "error", onError )
         .pipe( source( "main.js" ) )
         .pipe( buffer() )
         .pipe( gulp.dest( "public/javascripts/" ) );
@@ -52,7 +58,7 @@ gulp.task( "scss", function() {
             css: "public/stylesheets",
             sass: "scss",
         } ) )
-        .on( "error", gutil.log )
+        .on( "error", onError )
         .pipe( minifyCSS() )
         .pipe( gulp.dest( "public/stylesheets" ) );
 } );
