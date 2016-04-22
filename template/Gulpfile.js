@@ -56,7 +56,7 @@ gulp.task( "scss", function() {
     gulp.src( "scss/*.scss" )
         .pipe( compass( {
             css: "public/stylesheets",
-            sass: "scss",
+            sass: "scss"
         } ) )
         .on( "error", onError )
         .pipe( cssnano() )
