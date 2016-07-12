@@ -29,18 +29,18 @@ gulp.task( "scripts", function() {
 } );
 
 gulp.task( "connect", function() {
-    connect.server( {
+    return connect.server( {
         root: "public"
     } );
 } );
 
 gulp.task( "assets", function() {
-    gulp.src( [ "assets/**/*", "!assets/.gitkeep" ] )
+    return gulp.src( [ "assets/**/*", "!assets/.gitkeep" ] )
         .pipe( gulp.dest( "public" ) );
 } );
 
 gulp.task( "pug", function() {
-    gulp.src( "pug/*.pug" )
+    return gulp.src( "pug/*.pug" )
         .pipe( pug() )
         .pipe( gulp.dest( "public" ) );
 } );
@@ -53,10 +53,10 @@ gulp.task( "watch", function() {
 } );
 
 gulp.task( "scss", function() {
-    gulp.src( "scss/*.scss" )
+    return gulp.src( "scss/*.scss" )
         .pipe( compass( {
             css: "public/stylesheets",
-            sass: "scss",
+            sass: "scss"
         } ) )
         .on( "error", onError )
         .pipe( cleanCSS() )
