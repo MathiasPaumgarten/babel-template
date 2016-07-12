@@ -20,7 +20,7 @@ gulp.task( "scripts", function() {
     var bundler = browserify( "javascript/main.js", {
             debug: true
         } )
-        .transform( babelify, {} )
+        .transform( babelify, { "presets": [ "es2015" ] } )
         .on( "error", onError );
 
     return bundler.bundle()
