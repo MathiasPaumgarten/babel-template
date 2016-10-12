@@ -6,7 +6,6 @@ var pug         = require( "gulp-pug" );
 var cleanCSS    = require( "gulp-clean-css" );
 var compass     = require( "gulp-compass" );
 var source      = require( "vinyl-source-stream" );
-var buffer      = require( "vinyl-buffer" );
 var del         = require( "del" );
 var runSequence = require( "run-sequence" );
 
@@ -26,7 +25,6 @@ gulp.task( "scripts", function() {
     return bundler.bundle()
         .on( "error", onError )
         .pipe( source( "main.js" ) )
-        .pipe( buffer() )
         .pipe( gulp.dest( "public/javascripts/" ) );
 } );
 
