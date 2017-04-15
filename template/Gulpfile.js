@@ -4,7 +4,7 @@ var browserify  = require( "browserify" );
 var connect     = require( "gulp-connect" );
 var pug         = require( "gulp-pug" );
 var cleanCSS    = require( "gulp-clean-css" );
-var compass     = require( "gulp-compass" );
+var sass        = require( "gulp-sass" );
 var source      = require( "vinyl-source-stream" );
 var del         = require( "del" );
 var runSequence = require( "run-sequence" );
@@ -54,11 +54,7 @@ gulp.task( "watch", function() {
 
 gulp.task( "scss", function() {
     return gulp.src( "scss/*.scss" )
-        .pipe( compass( {
-            css: "public/stylesheets",
-            sass: "scss"
-        } ) )
-        .on( "error", onError )
+        .pipe( sass() )
         .pipe( cleanCSS() )
         .pipe( gulp.dest( "public/stylesheets" ) );
 } );
