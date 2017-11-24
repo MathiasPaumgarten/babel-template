@@ -1,7 +1,10 @@
 {
     "parserOptions": {
         "ecmaVersion": 6,
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "env": {
         "browser": true,
@@ -23,6 +26,16 @@
         "no-eval": 2,
         "no-extra-bind": 2,
         "prefer-spread": 2,
-        "no-console": 0
+        "no-console": 0,
+        "quotes": [ "error", "double" ],
+        "space-in-parens": [ "error", "always" ],
+        "max-len": [ "error", 120, { "ignoreUrls": true } ]
+    },
+    "globals": {
+        "describe": true,
+        "expect": true,
+        "it": true,
+        "afterEach": true,
+        "beforeEach": true
     }
 }

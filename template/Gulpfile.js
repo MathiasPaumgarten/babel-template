@@ -1,52 +1,45 @@
-var gulp        = require( "gulp" );
-var babelify    = require( "babelify" );
-var browserify  = require( "browserify" );
-var connect     = require( "gulp-connect" );
-var pug         = require( "gulp-pug" );
-var cleanCSS    = require( "gulp-clean-css" );
-var sass        = require( "gulp-sass" );
-var source      = require( "vinyl-source-stream" );
-var del         = require( "del" );
-var runSequence = require( "run-sequence" );
-
-function onError( error ) {
-    console.log( error );
-    this.emit( "end" );
-}
+const gulp        = require( "gulp" );
+const babelify    = require( "babelify" );
+const browserify  = require( "browserify" );
+const connect     = require( "gulp-connect" );
+const pug         = require( "gulp-pug" );
+const cleanCSS    = require( "gulp-clean-css" );
+const sass        = require( "gulp-sass" );
+const source      = require( "vinyl-source-stream" );
+const del         = require( "del" );
+const runSequence = require( "run-sequence" );
 
 gulp.task( "scripts", function() {
-
-    var bundler = browserify( "javascript/main.js", {
+    return browserify( "javascript/main.js", {
             debug: true
         } )
-        .transform( babelify, { "presets": [ "es2015" ] } )
-        .on( "error", onError );
-
-    return bundler.bundle()
-        .on( "error", onError )
+        .transform( babelify, {  "presets": [ "env" ] } )
+        .bundle()
+        .on( "error", function( error ) {
+            console.log( error );
+            this.emit( "end" );
+        } )
         .pipe( source( "main.js" ) )
-        .pipe( gulp.dest( "public/javascripts/" ) );
+        .pipe( gulp.dest( "public/javascript/" ) )
+        .pipe( connect.reload() );
 } );
 
 gulp.task( "connect", function() {
     return connect.server( {
-        root: "public"
+        root: "public",
+        livereload: true
     } );
 } );
 
-gulp.task( "assets", function() {
-    return gulp.src( [ "assets/**/*", "!assets/.gitkeep" ] )
-        .pipe( gulp.dest( "public" ) );
-} );
 
 gulp.task( "pug", function() {
     return gulp.src( "pug/*.pug" )
-        .pipe( pug() )
-        .pipe( gulp.dest( "public" ) );
+    .pipe( pug() )
+    .pipe( gulp.dest( "public" ) );
 } );
 
 gulp.task( "watch", function() {
-    gulp.watch( "javascript/**/*.js", [ "scripts" ] );
+    gulp.watch( "javascript/**", [ "scripts" ] );
     gulp.watch( "pug/**/*.pug", [ "pug" ] );
     gulp.watch( "scss/**/*.scss", [ "scss" ] );
     gulp.watch( "assets/**", [ "assets" ] );
@@ -54,14 +47,38 @@ gulp.task( "watch", function() {
 
 gulp.task( "scss", function() {
     return gulp.src( "scss/*.scss" )
-        .pipe( sass() )
+        .pipe( sass().on( "error", sass.logError ) )
         .pipe( cleanCSS() )
-        .pipe( gulp.dest( "public/stylesheets" ) );
+        .pipe( gulp.dest( "public/stylesheets" ) )
+        .pipe( connect.reload() );
+} );
+
+gulp.task( "assets", function() {
+    return gulp.src( [ "assets/**/*", "!assets/.gitkeep" ] )
+        .pipe( gulp.dest( "public" ) );
 } );
 
 gulp.task( "clean", function() {
     return del( [ "public" ] );
 } );
 
-gulp.task( "default", ( callback ) => runSequence( "clean", [ "scripts", "pug", "scss", "watch", "assets", "connect" ], callback ) );
-gulp.task( "build", ( callback ) => runSequence( "clean", [ "pug", "scss", "assets" ], callback ) );
+gulp.task( "default", callback => runSequence(
+    "clean", [
+        "scripts",
+        "pug",
+        "scss",
+        "watch",
+        "assets",
+        "connect"
+    ],
+    callback
+) );
+
+gulp.task( "build", callback => runSequence(
+    "clean", [
+        "pug",
+        "scss",
+        "assets"
+    ],
+    callback
+) );
