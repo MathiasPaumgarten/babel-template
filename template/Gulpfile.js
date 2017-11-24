@@ -20,7 +20,7 @@ gulp.task( "scripts", function() {
             this.emit( "end" );
         } )
         .pipe( source( "main.js" ) )
-        .pipe( gulp.dest( "public/javascript/" ) )
+        .pipe( gulp.dest( "public/javascripts/" ) )
         .pipe( connect.reload() );
 } );
 
