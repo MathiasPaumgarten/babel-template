@@ -34,8 +34,9 @@ gulp.task( "connect", function() {
 
 gulp.task( "pug", function() {
     return gulp.src( "pug/*.pug" )
-    .pipe( pug() )
-    .pipe( gulp.dest( "public" ) );
+        .pipe( pug() )
+        .pipe( gulp.dest( "public" ) )
+        .pipe( connect.reload() );
 } );
 
 gulp.task( "watch", function() {
